@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Select from 'react-select';
 
-import ChartView from '../chartView/ChartView';
+import ScatterChartView from '../scatterChartView/ScatterChartView';
 
 const ROOT_URL = 'https://swapi.co/api/';
 
@@ -50,8 +50,9 @@ function MainPage() {
   const classes = useStyles();
 
   const [speciesList, setSpeciesList] = useState([]);
-  const [species, setSepcies] = useState('');
+  const [species, setSpecies] = useState('');
   const [chartViewData, setChartViewData] = useState([]);
+  const [loadFinish, setLoadFinish] = useState(false);
 
   useEffect(() => {
     const result = getDropdownListItem();
@@ -73,36 +74,44 @@ function MainPage() {
       });
   }, []);
 
-  useEffect(() => {
-    if (!_.isEmpty(species)) {
-      if (!_.isEmpty(species.value)) {
-        const type = species.value;
+  const handleSpeciesChange = (selectedSpecies) => {
+    if (!_.isEmpty(selectedSpecies)) {
+      setSpecies(selectedSpecies);
+      if (!_.isEmpty(selectedSpecies.value)) {
+        const type = selectedSpecies.value;
         switchSpeciesType(type);
       }
     }
-  }, [species]);
+  }
 
   const switchSpeciesType = async (type) => {
+    setLoadFinish(false);
+
     if (!_.isEmpty(type)) {
       const result = await getApiByType(type);
       if (!_.isEmpty(result)) {
         if (!_.isEmpty(result.data.results)) {
-          setChartViewDataFunc(type, result.data.results);
+          await setChartViewDataFunc(type, result.data.results);
         }
       }
     }
   }
 
-  const setChartViewDataFunc = (type, list) => {
+  const setChartViewDataFunc = async (type, list) => {
     switch (type) {
       case 'people':
         const chartViewData = list.map((item, i) => {
           let obj = {};
+          obj.name = item.name ? item.name : '';
           obj.height = item.height ? parseInt(item.height, 10) : 0;
           obj.mass = item.mass ? parseInt(item.mass, 10) : 0;
           return obj;
         });
-        setChartViewData(chartViewData);
+
+        if (!_.isEmpty(chartViewData)) {
+          setChartViewData(chartViewData);
+          setLoadFinish(true);
+        }
         break;
       case 'planets':
         const residentsList = list.map((item, i) => {
@@ -116,22 +125,26 @@ function MainPage() {
             })
           });
         }
-        const chartViewData2 = formattedResidentsList.map((item, i) => {
+
+        let chartViewData2 = [];
+        for (let i = 0; i < formattedResidentsList.length; i++) {
+          const item = formattedResidentsList[i];
+
           let obj = {};
 
-          const value = getResponse(item);
-          value
-            .then((response) => {
-              obj.height = response.data.height ? parseInt(response.data.height, 10) : 0;
-              obj.mass = response.data.mass && response.data.mass !== 'unknown' ? parseInt(response.data.mass, 10) : 0;
-            })
-            .catch((e) => {
-              console.log(`error = ${e.message}`);
-            });
+          const response = await getResponse(item);
+          obj.name = response.data.name ? response.data.name : '';
+          obj.height = response.data.height ? parseInt(response.data.height, 10) : 0;
+          obj.mass = response.data.mass && response.data.mass !== 'unknown' ? parseInt(response.data.mass, 10) : 0;
 
-          return obj;
-        });
-        setChartViewData(chartViewData2);
+          if (!_.isEmpty(obj))
+            chartViewData2.push(obj);
+        }
+
+        if (!_.isEmpty(chartViewData2)) {
+          setChartViewData(chartViewData2);
+          setLoadFinish(true);
+        }
         break;
       case 'films':
         const charactersList = list.map((item, i) => {
@@ -145,22 +158,26 @@ function MainPage() {
             })
           });
         }
-        const chartViewData3 = formattedCharactersList.map((item, i) => {
+
+        let chartViewData3 = [];
+        for (let i = 0; i < formattedCharactersList.length; i++) {
+          const item = formattedCharactersList[i];
+
           let obj = {};
 
-          const value = getResponse(item);
-          value
-            .then((response) => {
-              obj.height = response.data.height ? parseInt(response.data.height, 10) : 0;
-              obj.mass = response.data.mass && response.data.mass !== 'unknown' ? parseInt(response.data.mass, 10) : 0;
-            })
-            .catch((e) => {
-              console.log(`error = ${e.message}`);
-            });
+          const response = await getResponse(item);
+          obj.name = response.data.name ? response.data.name : '';
+          obj.height = response.data.height ? parseInt(response.data.height, 10) : 0;
+          obj.mass = response.data.mass && response.data.mass !== 'unknown' ? parseInt(response.data.mass, 10) : 0;
 
-          return obj;
-        });
-        setChartViewData(chartViewData3);
+          if (!_.isEmpty(obj))
+            chartViewData3.push(obj);
+        }
+
+        if (!_.isEmpty(chartViewData3)) {
+          setChartViewData(chartViewData3);
+          setLoadFinish(true);
+        }
         break;
       case 'species':
         const peopleList = list.map((item, i) => {
@@ -174,31 +191,29 @@ function MainPage() {
             })
           });
         }
-        const chartViewData4 = formattedPeopleList.map((item, i) => {
+
+        let chartViewData4 = [];
+        for (let i = 0; i < formattedPeopleList.length; i++) {
+          const item = formattedPeopleList[i];
+
           let obj = {};
 
-          const value = getResponse(item);
-          value
-            .then((response) => {
-              obj.height = response.data.height ? parseInt(response.data.height, 10) : 0;
-              obj.mass = response.data.mass && response.data.mass !== 'unknown' ? parseInt(response.data.mass, 10) : 0;
-            })
-            .catch((e) => {
-              console.log(`error = ${e.message}`);
-            });
+          const response = await getResponse(item);
+          obj.name = response.data.name ? response.data.name : '';
+          obj.height = response.data.height ? parseInt(response.data.height, 10) : 0;
+          obj.mass = response.data.mass && response.data.mass !== 'unknown' ? parseInt(response.data.mass, 10) : 0;
 
-          return obj;
-        });
-        setChartViewData(chartViewData4);
+          if (!_.isEmpty(obj))
+            chartViewData4.push(obj);
+        }
+
+        if (!_.isEmpty(chartViewData4)) {
+          setChartViewData(chartViewData4);
+          setLoadFinish(true);
+        }
         break;
       default:
 
-    }
-  }
-
-  const handleSpeciesChange = (selectedSpecies) => {
-    if (!_.isEmpty(selectedSpecies)) {
-      setSepcies(selectedSpecies);
     }
   }
 
@@ -220,7 +235,7 @@ function MainPage() {
         </Paper>
       </div>
       <div className="mt-4 d-flex justify-content-center">
-        <ChartView chartViewData={chartViewData} />
+        <ScatterChartView chartViewData={chartViewData} loadFinish={loadFinish} />
       </div>
     </div>
   );
