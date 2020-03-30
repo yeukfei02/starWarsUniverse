@@ -30,8 +30,24 @@ async function getNodeResponseByName(name) {
   return result;
 }
 
+function CustomTooltip(props) {
+  let tooltip = null;
+
+  if (!_.isEmpty(props.name) && !_.isEmpty(props.gender)) {
+    tooltip = (
+      <div className="p-3" style={{ backgroundColor: 'white', borderRadius: '0.5em' }}>
+        <div>Name: {props.name}</div>
+        <div>Gender: {props.gender}</div>
+      </div>
+    );
+  }
+
+  return tooltip;
+}
+
 function ScatterChartView(props) {
   const classes = useStyles();
+  const [name, setName] = useState('');
   const [gender, setGender] = useState('');
 
   const renderChartView = () => {
@@ -50,7 +66,7 @@ function ScatterChartView(props) {
         >
           <XAxis type="number" dataKey="height" name="height" unit="" />
           <YAxis type="number" dataKey="mass" name="mass" unit="" />
-          <Tooltip cursor={{ strokeDasharray: '3 3' }} separator="" formatter={formatTooltip} />
+          <Tooltip content={<CustomTooltip name={name} gender={gender} />} />
           <Scatter
             name="height and mass relationship"
             data={props.chartViewData}
@@ -71,13 +87,10 @@ function ScatterChartView(props) {
     if (!_.isEmpty(result)) {
       if (!_.isEmpty(result.data.results) && result.data.results.length === 1) {
         const gender = result.data.results[0].gender;
+        setName(name);
         setGender(gender);
       }
     }
-  }
-
-  const formatTooltip = (value, name, props) => {
-    return `Name: ${props.payload.name} Gender: ${gender}`;
   }
 
   return (
