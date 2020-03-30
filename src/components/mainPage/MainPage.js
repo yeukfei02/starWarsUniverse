@@ -220,9 +220,9 @@ function MainPage() {
   return (
     <div>
       <div className="mt-5 d-flex justify-content-center">
-        <Paper className={`${classes.root} mx-4 w-75 p-3`}>
+        <Paper className={`${classes.root} mx-4 w-50 p-3`}>
           <div className="w-100">
-            <h3 className="text-center my-3">Star Wars Universe</h3>
+            <div className="text-center my-3 h1">Star Wars Universe</div>
             <Select
               styles={selectStyles}
               placeholder={'Pick a species...'}
