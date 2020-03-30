@@ -35,7 +35,7 @@ function CustomTooltip(props) {
 
   if (!_.isEmpty(props.name) && !_.isEmpty(props.gender)) {
     tooltip = (
-      <div className="p-3" style={{ backgroundColor: 'white', borderRadius: '0.5em' }}>
+      <div className="p-3" style={{ backgroundColor: 'lightgray', borderRadius: '0.5em' }}>
         <div>Name: {props.name}</div>
         <div>Gender: {props.gender}</div>
       </div>
@@ -58,8 +58,9 @@ function ScatterChartView(props) {
     if (!_.isEmpty(props.chartViewData) && props.loadFinish === true) {
       chartView = (
         <ScatterChart
-          width={600}
-          height={400}
+          style={{ backgroundColor: 'white' }}
+          width={800}
+          height={350}
           margin={{
             top: 20, right: 20, bottom: 20, left: 20,
           }}

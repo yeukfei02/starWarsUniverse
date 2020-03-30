@@ -9,8 +9,11 @@ import MainPage from './mainPage/MainPage';
 const theme = createMuiTheme({
   palette: {
     background: {
-      default: "lightblue"
+      default: "lightgray"
     }
+  },
+  typography: {
+    "fontFamily": "Fredoka One', cursive",
   }
 });
 
