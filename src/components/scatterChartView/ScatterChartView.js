@@ -77,6 +77,12 @@ function ScatterChartView(props) {
           <Legend />
         </ScatterChart>
       );
+    } else {
+      if (props.species.value === 'planets' || props.species.value === 'films' || props.species.value === 'species') {
+        chartView = (
+          <Alert severity="warning">Please wait...</Alert>
+        );
+      }
     }
 
     return chartView;

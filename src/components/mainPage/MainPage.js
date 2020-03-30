@@ -85,6 +85,7 @@ function MainPage() {
   }
 
   const switchSpeciesType = async (type) => {
+    setChartViewData([]);
     setLoadFinish(false);
 
     if (!_.isEmpty(type)) {
@@ -235,7 +236,7 @@ function MainPage() {
         </Paper>
       </div>
       <div className="my-4 d-flex justify-content-center">
-        <ScatterChartView chartViewData={chartViewData} loadFinish={loadFinish} />
+        <ScatterChartView chartViewData={chartViewData} loadFinish={loadFinish} species={species} />
       </div>
     </div>
   );
