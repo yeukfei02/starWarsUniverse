@@ -9,7 +9,7 @@ import MainPage from './mainPage/MainPage';
 const theme = createMuiTheme({
   palette: {
     background: {
-      default: "lightgray"
+      default: "#3399ff"
     }
   },
   typography: {

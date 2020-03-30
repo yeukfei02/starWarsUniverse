@@ -234,7 +234,7 @@ function MainPage() {
           </div>
         </Paper>
       </div>
-      <div className="mt-4 d-flex justify-content-center">
+      <div className="my-4 d-flex justify-content-center">
         <ScatterChartView chartViewData={chartViewData} loadFinish={loadFinish} />
       </div>
     </div>
