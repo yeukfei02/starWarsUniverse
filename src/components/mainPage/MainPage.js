@@ -5,6 +5,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Select from 'react-select';
 
+import ChartView from '../chartView/ChartView';
+
 const ROOT_URL = 'https://swapi.co/api/';
 
 async function getDropdownListItem() {
@@ -44,6 +46,7 @@ function MainPage() {
 
   const [speciesList, setSpeciesList] = useState([]);
   const [species, setSepcies] = useState('');
+  const [chartViewData, setChartViewData] = useState(null);
 
   useEffect(() => {
     const result = getDropdownListItem();
@@ -73,6 +76,7 @@ function MainPage() {
         result
           .then((response) => {
             console.log("results = ", response.data.results);
+            setChartViewData(response.data.results);
           })
           .catch((e) => {
             console.log(`error = ${e.message}`);
@@ -88,20 +92,25 @@ function MainPage() {
   }
 
   return (
-    <div className="mt-5 d-flex justify-content-center">
-      <Paper className={`${classes.root} mx-4 w-75`}>
-        <div className="w-100">
-          <h3 className="text-center my-3">Star Wars Universe</h3>
-          <Select
-            styles={selectStyles}
-            placeholder={'Pick a species...'}
-            value={species}
-            onChange={handleSpeciesChange}
-            options={speciesList}
-            isClearable={true}
-          />
-        </div>
-      </Paper>
+    <div>
+      <div className="mt-5 d-flex justify-content-center">
+        <Paper className={`${classes.root} mx-4 w-75 p-3`}>
+          <div className="w-100">
+            <h3 className="text-center my-3">Star Wars Universe</h3>
+            <Select
+              styles={selectStyles}
+              placeholder={'Pick a species...'}
+              value={species}
+              onChange={handleSpeciesChange}
+              options={speciesList}
+              isClearable={true}
+            />
+          </div>
+        </Paper>
+      </div>
+      <div className="mt-4 d-flex justify-content-center">
+        <ChartView chartViewData={chartViewData} />
+      </div>
     </div>
   );
 }
