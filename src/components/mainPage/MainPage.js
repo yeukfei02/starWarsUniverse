@@ -21,6 +21,11 @@ async function getApiByType(type) {
   return result;
 }
 
+async function getResponse(url) {
+  const result = await axios.get(`${url}`);
+  return result;
+}
+
 const selectStyles = {
   container: (base, state) => ({
     ...base,
@@ -46,7 +51,7 @@ function MainPage() {
 
   const [speciesList, setSpeciesList] = useState([]);
   const [species, setSepcies] = useState('');
-  const [chartViewData, setChartViewData] = useState(null);
+  const [chartViewData, setChartViewData] = useState([]);
 
   useEffect(() => {
     const result = getDropdownListItem();
@@ -72,18 +77,124 @@ function MainPage() {
     if (!_.isEmpty(species)) {
       if (!_.isEmpty(species.value)) {
         const type = species.value;
-        const result = getApiByType(type);
-        result
-          .then((response) => {
-            console.log("results = ", response.data.results);
-            setChartViewData(response.data.results);
-          })
-          .catch((e) => {
-            console.log(`error = ${e.message}`);
-          })
+        switchSpeciesType(type);
       }
     }
   }, [species]);
+
+  const switchSpeciesType = async (type) => {
+    if (!_.isEmpty(type)) {
+      const result = await getApiByType(type);
+      if (!_.isEmpty(result)) {
+        if (!_.isEmpty(result.data.results)) {
+          setChartViewDataFunc(type, result.data.results);
+        }
+      }
+    }
+  }
+
+  const setChartViewDataFunc = (type, list) => {
+    switch (type) {
+      case 'people':
+        const chartViewData = list.map((item, i) => {
+          let obj = {};
+          obj.height = item.height ? parseInt(item.height, 10) : 0;
+          obj.mass = item.mass ? parseInt(item.mass, 10) : 0;
+          return obj;
+        });
+        setChartViewData(chartViewData);
+        break;
+      case 'planets':
+        const residentsList = list.map((item, i) => {
+          return item.residents;
+        });
+        let formattedResidentsList = [];
+        if (!_.isEmpty(residentsList)) {
+          residentsList.forEach((item, i) => {
+            item.forEach((value, i) => {
+              formattedResidentsList.push(value);
+            })
+          });
+        }
+        const chartViewData2 = formattedResidentsList.map((item, i) => {
+          let obj = {};
+
+          const value = getResponse(item);
+          value
+            .then((response) => {
+              obj.height = response.data.height ? parseInt(response.data.height, 10) : 0;
+              obj.mass = response.data.mass && response.data.mass !== 'unknown' ? parseInt(response.data.mass, 10) : 0;
+            })
+            .catch((e) => {
+              console.log(`error = ${e.message}`);
+            });
+
+          return obj;
+        });
+        setChartViewData(chartViewData2);
+        break;
+      case 'films':
+        const charactersList = list.map((item, i) => {
+          return item.characters;
+        });
+        let formattedCharactersList = [];
+        if (!_.isEmpty(charactersList)) {
+          charactersList.forEach((item, i) => {
+            item.forEach((value, i) => {
+              formattedCharactersList.push(value);
+            })
+          });
+        }
+        const chartViewData3 = formattedCharactersList.map((item, i) => {
+          let obj = {};
+
+          const value = getResponse(item);
+          value
+            .then((response) => {
+              obj.height = response.data.height ? parseInt(response.data.height, 10) : 0;
+              obj.mass = response.data.mass && response.data.mass !== 'unknown' ? parseInt(response.data.mass, 10) : 0;
+            })
+            .catch((e) => {
+              console.log(`error = ${e.message}`);
+            });
+
+          return obj;
+        });
+        setChartViewData(chartViewData3);
+        break;
+      case 'species':
+        const peopleList = list.map((item, i) => {
+          return item.people;
+        });
+        let formattedPeopleList = [];
+        if (!_.isEmpty(peopleList)) {
+          peopleList.forEach((item, i) => {
+            item.forEach((value, i) => {
+              formattedPeopleList.push(value);
+            })
+          });
+        }
+        const chartViewData4 = formattedPeopleList.map((item, i) => {
+          let obj = {};
+
+          const value = getResponse(item);
+          value
+            .then((response) => {
+              obj.height = response.data.height ? parseInt(response.data.height, 10) : 0;
+              obj.mass = response.data.mass && response.data.mass !== 'unknown' ? parseInt(response.data.mass, 10) : 0;
+            })
+            .catch((e) => {
+              console.log(`error = ${e.message}`);
+            });
+
+          return obj;
+        });
+        setChartViewData(chartViewData4);
+        break;
+      default:
+
+    }
+  }
 
   const handleSpeciesChange = (selectedSpecies) => {
     if (!_.isEmpty(selectedSpecies)) {

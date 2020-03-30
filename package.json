@@ -22,7 +22,7 @@
     "react-normalize": "^0.4.4",
     "react-scripts": "3.4.1",
     "react-select": "^3.1.0",
-    "serve": "^11.3.0"
+    "recharts": "^1.8.5"
   },
   "scripts": {
     "start": "PORT=5000 react-scripts start",
