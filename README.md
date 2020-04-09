@@ -11,7 +11,10 @@ star wars universe scatter plot chart by The Star Wars API
 $ yarn
 
 // development
-$ yarn run start
+$ yarn run dev
+
+// production
+$ yarn run production
 
 // run test case
 $ yarn run test
