@@ -34,6 +34,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test --coverage",
     "eject": "react-scripts eject",
+    "heroku-postbuild": "yarn run build",
     "lint": "eslint . --quiet --fix"
   },
   "eslintConfig": {
