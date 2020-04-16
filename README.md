@@ -32,7 +32,7 @@ open localhost:5000
 build images and start container
 ```
 docker build -t <username>/star-wars-universe:<tag> .
-docker run -p 3000:3000 -d <username>/star-wars-universe:<tag>
+docker run -p 80:80 -d <username>/star-wars-universe:<tag>
 docker exec -it <containerId> /bin/bash
 docker logs <containerId>
 ```
