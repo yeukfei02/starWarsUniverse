@@ -7,7 +7,7 @@ import Alert from '@material-ui/lab/Alert';
 import axios from 'axios';
 import _ from 'lodash';
 
-const ROOT_URL = 'https://swapi.co/api/';
+const ROOT_URL = 'https://swapi.dev/api/';
 
 const useStyles = makeStyles((theme) => ({
   root: {

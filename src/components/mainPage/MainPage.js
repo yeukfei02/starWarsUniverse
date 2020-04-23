@@ -7,7 +7,7 @@ import Select from 'react-select';
 
 import ScatterChartView from '../scatterChartView/ScatterChartView';
 
-const ROOT_URL = 'https://swapi.co/api/';
+const ROOT_URL = 'https://swapi.dev/api/';
 
 async function getDropdownListItem() {
   const result = await axios.get(`
