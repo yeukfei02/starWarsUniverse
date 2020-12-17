@@ -63,13 +63,13 @@ function MainPage() {
   };
 
   const getApiByType = async (type) => {
-    const result = await axios.get(`${ROOT_URL}${type}/`);
-    return result;
+    const response = await axios.get(`${ROOT_URL}${type}/`);
+    return response;
   };
 
   const getResponse = async (url) => {
-    const result = await axios.get(`${url}`);
-    return result;
+    const response = await axios.get(`${url}`);
+    return response;
   };
 
   const handleSpeciesChange = (selectedSpecies) => {

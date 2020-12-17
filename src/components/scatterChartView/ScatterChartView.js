@@ -37,12 +37,12 @@ function ScatterChartView(props) {
   const [gender, setGender] = useState('');
 
   const getNodeResponseByName = async (name) => {
-    const result = await axios.get(`${ROOT_URL}people/`, {
+    const response = await axios.get(`${ROOT_URL}people/`, {
       params: {
         search: name,
       },
     });
-    return result;
+    return response;
   };
 
   const renderChartView = () => {
