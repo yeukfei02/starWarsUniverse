@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
-import {
-  ScatterChart, Scatter, XAxis, YAxis, Tooltip, Legend
-} from 'recharts';
+import { ScatterChart, Scatter, XAxis, YAxis, Tooltip, Legend } from 'recharts';
 import { makeStyles } from '@material-ui/core/styles';
 import Alert from '@material-ui/lab/Alert';
 import axios from 'axios';
@@ -17,18 +15,6 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
-
-async function getNodeResponseByName(name) {
-  const result = await axios.get(
-    `${ROOT_URL}people/`,
-    {
-      params: {
-        search: name
-      }
-    }
-  );
-  return result;
-}
 
 function CustomTooltip(props) {
   let tooltip = null;
@@ -50,10 +36,17 @@ function ScatterChartView(props) {
   const [name, setName] = useState('');
   const [gender, setGender] = useState('');
 
+  const getNodeResponseByName = async (name) => {
+    const response = await axios.get(`${ROOT_URL}people/`, {
+      params: {
+        search: name,
+      },
+    });
+    return response;
+  };
+
   const renderChartView = () => {
-    let chartView = (
-      <Alert severity="warning">No data</Alert>
-    );
+    let chartView = <Alert severity="warning">No data</Alert>;
 
     if (!_.isEmpty(props.chartViewData) && props.loadFinish === true) {
       chartView = (
@@ -62,7 +55,10 @@ function ScatterChartView(props) {
           width={800}
           height={350}
           margin={{
-            top: 20, right: 20, bottom: 20, left: 20,
+            top: 20,
+            right: 20,
+            bottom: 20,
+            left: 20,
           }}
         >
           <XAxis type="number" dataKey="height" name="height" unit="" />
@@ -79,14 +75,12 @@ function ScatterChartView(props) {
       );
     } else {
       if (props.species.value === 'planets' || props.species.value === 'films' || props.species.value === 'species') {
-        chartView = (
-          <Alert severity="warning">Please wait...</Alert>
-        );
+        chartView = <Alert severity="warning">Please wait...</Alert>;
       }
     }
 
     return chartView;
-  }
+  };
 
   const handleScatterMouseOver = async (e) => {
     const name = e.name;
@@ -98,13 +92,9 @@ function ScatterChartView(props) {
         setGender(gender);
       }
     }
-  }
+  };
 
-  return (
-    <div className={`${classes.root} d-flex justify-content-center`}>
-      {renderChartView()}
-    </div>
-  );
+  return <div className={`${classes.root} d-flex justify-content-center`}>{renderChartView()}</div>;
 }
 
 export default ScatterChartView;

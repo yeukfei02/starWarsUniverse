@@ -9,30 +9,13 @@ import ScatterChartView from '../scatterChartView/ScatterChartView';
 
 const ROOT_URL = 'https://swapi.dev/api/';
 
-async function getDropdownListItem() {
-  const result = await axios.get(`
-    ${ROOT_URL}
-  `);
-  return result;
-}
-
-async function getApiByType(type) {
-  const result = await axios.get(`${ROOT_URL}${type}/`);
-  return result;
-}
-
-async function getResponse(url) {
-  const result = await axios.get(`${url}`);
-  return result;
-}
-
 const selectStyles = {
   container: (base, state) => ({
     ...base,
-    opacity: state.isDisabled ? ".5" : "1",
-    backgroundColor: "transparent",
-    zIndex: "999"
-  })
+    opacity: state.isDisabled ? '.5' : '1',
+    backgroundColor: 'transparent',
+    zIndex: '999',
+  }),
 };
 
 const useStyles = makeStyles((theme) => ({
@@ -42,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
       margin: theme.spacing(1),
       width: theme.spacing(16),
       height: theme.spacing(16),
-    }
+    },
   },
 }));
 
@@ -55,10 +38,17 @@ function MainPage() {
   const [loadFinish, setLoadFinish] = useState(false);
 
   useEffect(() => {
-    const result = getDropdownListItem();
-    result
-      .then((response) => {
-        const keys = Object.keys(response.data);
+    getDropdownListItem();
+  }, []);
+
+  const getDropdownListItem = async () => {
+    const response = await axios.get(`
+      ${ROOT_URL}
+    `);
+    if (response) {
+      const responseData = response.data;
+      if (responseData) {
+        const keys = Object.keys(responseData);
         if (!_.isEmpty(keys)) {
           const formattedKeysList = keys.map((item, i) => {
             let obj = {};
@@ -68,11 +58,19 @@ function MainPage() {
           });
           setSpeciesList(formattedKeysList);
         }
-      })
-      .catch((e) => {
-        console.log(`error = ${e.message}`);
-      });
-  }, []);
+      }
+    }
+  };
+
+  const getApiByType = async (type) => {
+    const response = await axios.get(`${ROOT_URL}${type}/`);
+    return response;
+  };
+
+  const getResponse = async (url) => {
+    const response = await axios.get(`${url}`);
+    return response;
+  };
 
   const handleSpeciesChange = (selectedSpecies) => {
     if (!_.isEmpty(selectedSpecies)) {
@@ -82,7 +80,7 @@ function MainPage() {
         switchSpeciesType(type);
       }
     }
-  }
+  };
 
   const switchSpeciesType = async (type) => {
     setChartViewData([]);
@@ -96,7 +94,7 @@ function MainPage() {
         }
       }
     }
-  }
+  };
 
   const setChartViewDataFunc = async (type, list) => {
     switch (type) {
@@ -123,7 +121,7 @@ function MainPage() {
           residentsList.forEach((item, i) => {
             item.forEach((value, i) => {
               formattedResidentsList.push(value);
-            })
+            });
           });
         }
 
@@ -138,8 +136,7 @@ function MainPage() {
           obj.height = response.data.height ? parseInt(response.data.height, 10) : 0;
           obj.mass = response.data.mass && response.data.mass !== 'unknown' ? parseInt(response.data.mass, 10) : 0;
 
-          if (!_.isEmpty(obj))
-            chartViewData2.push(obj);
+          if (!_.isEmpty(obj)) chartViewData2.push(obj);
         }
 
         if (!_.isEmpty(chartViewData2)) {
@@ -156,7 +153,7 @@ function MainPage() {
           charactersList.forEach((item, i) => {
             item.forEach((value, i) => {
               formattedCharactersList.push(value);
-            })
+            });
           });
         }
 
@@ -171,8 +168,7 @@ function MainPage() {
           obj.height = response.data.height ? parseInt(response.data.height, 10) : 0;
           obj.mass = response.data.mass && response.data.mass !== 'unknown' ? parseInt(response.data.mass, 10) : 0;
 
-          if (!_.isEmpty(obj))
-            chartViewData3.push(obj);
+          if (!_.isEmpty(obj)) chartViewData3.push(obj);
         }
 
         if (!_.isEmpty(chartViewData3)) {
@@ -189,7 +185,7 @@ function MainPage() {
           peopleList.forEach((item, i) => {
             item.forEach((value, i) => {
               formattedPeopleList.push(value);
-            })
+            });
           });
         }
 
@@ -204,8 +200,7 @@ function MainPage() {
           obj.height = response.data.height ? parseInt(response.data.height, 10) : 0;
           obj.mass = response.data.mass && response.data.mass !== 'unknown' ? parseInt(response.data.mass, 10) : 0;
 
-          if (!_.isEmpty(obj))
-            chartViewData4.push(obj);
+          if (!_.isEmpty(obj)) chartViewData4.push(obj);
         }
 
         if (!_.isEmpty(chartViewData4)) {
@@ -214,9 +209,8 @@ function MainPage() {
         }
         break;
       default:
-
     }
-  }
+  };
 
   return (
     <div>
