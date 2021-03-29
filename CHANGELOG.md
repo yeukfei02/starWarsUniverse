@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.1.4](https://github.com/yeukfei02/starWarsUniverse/compare/v1.1.3...v1.1.4) (2021-03-29)
+
+
+### Bug Fixes
+
+* 🐛 fix package.json ([2fe5e83](https://github.com/yeukfei02/starWarsUniverse/commit/2fe5e83510fdb2d368dcb3e04fc8b0ebb633d21d))
+
 ### [1.1.3](https://github.com/yeukfei02/starWarsUniverse/compare/v1.1.2...v1.1.3) (2020-12-17)
 
 
