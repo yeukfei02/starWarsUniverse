@@ -41,7 +41,7 @@
     "eject": "react-scripts eject",
     "heroku-postbuild": "yarn run build",
     "lint": "eslint . --quiet --fix",
-    "commit": "npx git-cz",
+    "commit": "git-cz",
     "release": "standard-version"
   },
   "eslintConfig": {
