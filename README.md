@@ -2,10 +2,12 @@
 
 star wars universe scatter plot chart by The Star Wars API
 
+url: <https://star-wars-universe-five.vercel.app>
+
 ## Requirement
 
 - install yarn
-- install node (v12+)
+- install node (v14+)
 
 ## Testing and run
 
